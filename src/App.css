@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* CheatStore Dark Theme */
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #00ff88;
+  --primary-foreground: #000000;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2a2a;
+  --muted-foreground: #888888;
+  --accent: #00ff88;
+  --accent-foreground: #000000;
+  --destructive: #ff4444;
+  --border: #333333;
+  --input: #2a2a2a;
+  --ring: #00ff88;
+  --chart-1: #00ff88;
+  --chart-2: #0088ff;
+  --chart-3: #ff0088;
+  --chart-4: #ffaa00;
+  --chart-5: #aa00ff;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #00ff88;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #00ff88;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #00ff88;
+  --primary-foreground: #000000;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2a2a;
+  --muted-foreground: #888888;
+  --accent: #00ff88;
+  --accent-foreground: #000000;
+  --destructive: #ff4444;
+  --border: #333333;
+  --input: #2a2a2a;
+  --ring: #00ff88;
+  --chart-1: #00ff88;
+  --chart-2: #0088ff;
+  --chart-3: #ff0088;
+  --chart-4: #ffaa00;
+  --chart-5: #aa00ff;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #00ff88;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #00ff88;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* CheatStore Custom Styles */
+@layer components {
+  .cheat-gradient {
+    background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
+  }
+  
+  .cheat-gradient-text {
+    background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .cheat-glow {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+  
+  .cheat-card {
+    background: rgba(26, 26, 26, 0.4); /* less opaque */
+    backdrop-filter: blur(3px); /* less blur */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .cheat-button {
+    background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
+    transition: all 0.3s ease;
+  }
+  
+  .cheat-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+  }
+  
+  .tech-grid {
+    background-image: 
+      linear-gradient(rgba(0, 255, 136, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 136, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  
+  .neon-border {
+    border: 1px solid #00ff88;
+    box-shadow: 
+      0 0 5px #00ff88,
+      inset 0 0 5px rgba(0, 255, 136, 0.1);
+  }
+  
+  .category-private {
+    background: linear-gradient(135deg, #ff0088 0%, #aa00ff 100%);
+  }
+  
+  .category-web2 {
+    background: linear-gradient(135deg, #ffaa00 0%, #ff4444 100%);
+  }
+  
+  .category-web3 {
+    background: linear-gradient(135deg, #0088ff 0%, #00ff88 100%);
+  }
+}
+
+/* Importação da fonte SD Dystopian */
+@font-face {
+  font-family: 'SD Dystopian';
+  src: url('./src/assets/fonts/Sddystopiandemo-GO7xa.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Classe base para usar a fonte SD Dystopian */
+.sd-dystopian {
+  font-family: 'SD Dystopian', 'Courier New', monospace;
+}
+
+/* Estilos do Typewriter básico */
+.typewriter-text {
+  font-family: 'SD Dystopian', 'Courier New', monospace;
+  color: white; /* Cor padrão para o texto do typewriter */
+}
+
+.typewriter-cursor {
+  font-family: 'SD Dystopian', 'Courier New', monospace;
+  color: #00ffff; /* Cor padrão do cursor (pode ser sobrescrita via prop) */
+  font-weight: bold;
+}
+
+/* Efeito Arco-Íris */
+.rainbow-text {
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-shift 6s linear infinite;
+  background-size: 400% 100%;
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+
+
