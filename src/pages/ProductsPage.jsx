@@ -7,9 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import Loading from '../components/ui/loading';
 import api from '../lib/api';
 import { Search, Filter, Grid, List } from 'lucide-react';
-import MatrixRain from '../components/layout/MatrixRain';
-import TypewriterText from '../components/TypewriterText';
-
 
 const ProductsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -119,166 +116,167 @@ const ProductsPage = () => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
-      {/* Matrix Rain Effect - background for ProductsPage */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }}>
-        <MatrixRain />
-      </div>
-      <div style={{ position: 'relative', zIndex: 2 }}>
-        <div className="container mx-auto px-4">
-          {/* Header */}
-          <div className="mt-16 mb-8">
-            <h1 className="text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              <TypewriterText 
-                className="rainbow-text"
-                text="All Products"
-                delay={500}
-                speed={150}
-              />
-            </h1>
-            {selectedCategory && (
-              <p className="text-xl text-muted-foreground">
-                {selectedCategory === 'private' && 'Exclusive collection of private cheats for premium members only.'}
-                {selectedCategory === 'web2' && 'Premium collection of Web2 gaming cheats for traditional games.'}
-                {selectedCategory === 'web3' && 'Cutting-edge collection of Web3 gaming cheats for blockchain games.'}
-              </p>
+    <div className="min-h-screen py-8">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-4">
+            {selectedCategory ? (
+              <>
+                <span className="cheat-gradient-text">{getCategoryLabel(selectedCategory)}</span>
+              </>
+            ) : searchQuery ? (
+              <>
+                Search Results for "<span className="cheat-gradient-text">{searchQuery}</span>"
+              </>
+            ) : (
+              <>
+                All <span className="cheat-gradient-text">Products</span>
+              </>
             )}
-          </div>
-
-          {/* Filters */}
-          <div className="card-base rounded-lg p-6 mb-8">
-            <div className="flex flex-col lg:flex-row gap-4 items-center">
-              {/* Search */}
-              <form onSubmit={handleSearch} className="flex-1 max-w-md">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </form>
-
-              {/* Category Filter */}
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-full lg:w-48">
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {getCategoryLabel(category)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              {/* Game Filter */}
-              <Select value={selectedGame} onValueChange={setSelectedGame}>
-                <SelectTrigger className="w-full lg:w-48">
-                  <SelectValue placeholder="All Games" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Games</SelectItem>
-                  {games.map((game) => (
-                    <SelectItem key={game} value={game}>
-                      {game}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              {/* Sort */}
-              <Select value={`${sortBy}-${sortOrder}`} onValueChange={(value) => {
-                const [sort, order] = value.split('-');
-                setSortBy(sort);
-                setSortOrder(order);
-              }}>
-                <SelectTrigger className="w-full lg:w-48">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="created_at-desc">Newest First</SelectItem>
-                  <SelectItem value="created_at-asc">Oldest First</SelectItem>
-                  <SelectItem value="price_usd-asc">Price: Low to High</SelectItem>
-                  <SelectItem value="price_usd-desc">Price: High to Low</SelectItem>
-                  <SelectItem value="rating-desc">Highest Rated</SelectItem>
-                  <SelectItem value="name-asc">Name: A to Z</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Clear Filters */}
-              <Button variant="outline" onClick={clearFilters}>
-                <Filter className="h-4 w-4 mr-2" />
-                Clear
-              </Button>
-            </div>
-          </div>
-
-          {/* Products Grid */}
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <Loading size="lg" text="Loading products..." />
-            </div>
-          ) : error ? (
-            <div className="text-center py-12">
-              <p className="text-destructive mb-4">{error}</p>
-              <Button onClick={fetchProducts} variant="outline">
-                Try Again
-              </Button>
-            </div>
-          ) : (
-            <>
-              {products.length > 0 ? (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-                    {products.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))}
-                  </div>
-
-                  {/* Pagination */}
-                  {pagination.pages > 1 && (
-                    <div className="flex justify-center items-center space-x-2">
-                      <Button
-                        variant="outline"
-                        disabled={!pagination.has_prev}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                      >
-                        Previous
-                      </Button>
-                      
-                      <span className="text-sm text-muted-foreground">
-                        Page {pagination.page} of {pagination.pages}
-                      </span>
-                      
-                      <Button
-                        variant="outline"
-                        disabled={!pagination.has_next}
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                      >
-                        Next
-                      </Button>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground mb-4">
-                    No products found matching your criteria.
-                  </p>
-                  <Button onClick={clearFilters} variant="outline">
-                    Clear Filters
-                  </Button>
-                </div>
-              )}
-            </>
+          </h1>
+          {selectedCategory && (
+            <p className="text-xl text-muted-foreground">
+              {selectedCategory === 'private' && 'Exclusive collection of private cheats for premium members only.'}
+              {selectedCategory === 'web2' && 'Premium collection of Web2 gaming cheats for traditional games.'}
+              {selectedCategory === 'web3' && 'Cutting-edge collection of Web3 gaming cheats for blockchain games.'}
+            </p>
           )}
         </div>
+
+        {/* Filters */}
+        <div className="cheat-card rounded-lg p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4 items-center">
+            {/* Search */}
+            <form onSubmit={handleSearch} className="flex-1 max-w-md">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </form>
+
+            {/* Category Filter */}
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full lg:w-48">
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {getCategoryLabel(category)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Game Filter */}
+            <Select value={selectedGame} onValueChange={setSelectedGame}>
+              <SelectTrigger className="w-full lg:w-48">
+                <SelectValue placeholder="All Games" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Games</SelectItem>
+                {games.map((game) => (
+                  <SelectItem key={game} value={game}>
+                    {game}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Sort */}
+            <Select value={`${sortBy}-${sortOrder}`} onValueChange={(value) => {
+              const [sort, order] = value.split('-');
+              setSortBy(sort);
+              setSortOrder(order);
+            }}>
+              <SelectTrigger className="w-full lg:w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="created_at-desc">Newest First</SelectItem>
+                <SelectItem value="created_at-asc">Oldest First</SelectItem>
+                <SelectItem value="price_usd-asc">Price: Low to High</SelectItem>
+                <SelectItem value="price_usd-desc">Price: High to Low</SelectItem>
+                <SelectItem value="rating-desc">Highest Rated</SelectItem>
+                <SelectItem value="name-asc">Name: A to Z</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* Clear Filters */}
+            <Button variant="outline" onClick={clearFilters}>
+              <Filter className="h-4 w-4 mr-2" />
+              Clear
+            </Button>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <Loading size="lg" text="Loading products..." />
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <p className="text-destructive mb-4">{error}</p>
+            <Button onClick={fetchProducts} variant="outline">
+              Try Again
+            </Button>
+          </div>
+        ) : (
+          <>
+            {products.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {pagination.pages > 1 && (
+                  <div className="flex justify-center items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      disabled={!pagination.has_prev}
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                    >
+                      Previous
+                    </Button>
+                    
+                    <span className="text-sm text-muted-foreground">
+                      Page {pagination.page} of {pagination.pages}
+                    </span>
+                    
+                    <Button
+                      variant="outline"
+                      disabled={!pagination.has_next}
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground mb-4">
+                  No products found matching your criteria.
+                </p>
+                <Button onClick={clearFilters} variant="outline">
+                  Clear Filters
+                </Button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
